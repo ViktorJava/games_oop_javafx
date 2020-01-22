@@ -17,4 +17,22 @@ public enum Cell {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Поиск нужного объекта из перечисления по заданным координатам.
+     *
+     * @param x координата клетки.
+     * @param y координата клетки.
+     * @return найденная клетка.
+     */
+    public static Cell findBy(int x, int y) {
+        Cell result = null;
+        for (Cell cell : values()) {
+            if (cell.x == x && cell.y == y) {
+                result = cell;
+                break;
+            }
+        }
+        return result;
+    }
 }

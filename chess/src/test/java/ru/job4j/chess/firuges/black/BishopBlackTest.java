@@ -34,7 +34,7 @@ public class BishopBlackTest {
     }
 
     /**
-     * Тест диагональности хода.
+     * Когда у слона диагональный ход.
      */
     @Test
     public void whenIsDiagonal() {
@@ -43,7 +43,7 @@ public class BishopBlackTest {
     }
 
     /**
-     * Тест недиагональности хода.
+     * Когда у слона не диагональный ход.
      */
     @Test
     public void whenIsNotDiagonal() {
@@ -52,12 +52,20 @@ public class BishopBlackTest {
     }
 
     /**
-     * Тест построения пути для прохождения фигуры.
+     * Тест пути прохождения фигуры.
      */
     @Test
     public void returnAllWay() {
         BishopBlack bishopBlack = new BishopBlack(Cell.C8);
         Cell[] way = bishopBlack.way(bishopBlack.position(), Cell.G4);
         assertThat(way, is(new Cell[]{Cell.D7, Cell.E6, Cell.F5, Cell.G4}));
+    }
+
+    /**
+     * Исключение, когда у слона не диагональный ход.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void whenIsNotDiagonalThenThrowException() {
+        new BishopBlack(Cell.C8).way(Cell.C8, Cell.H8);
     }
 }

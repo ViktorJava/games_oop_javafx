@@ -4,10 +4,9 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
- * //TODO add comments.
+ * Класс бизнес логики.
  *
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
@@ -23,13 +22,29 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        int index = this.findBy(source);
-        if (index != -1) {
+        try {
+            int index = this.findBy(source); // поиск фигуры на исходной клетке.
+            int end = this.findBy(dest); // поиск фигуры на конечной клетке.
+//        если на исходной клетке есть фигура, а на конечной нет фигуры.
+            if (index != -1 && end == -1) {
+            } else {
+                throw new IllegalStateException(String.format("Wrong move from %s to %s", source, dest));
+            }
+//            находим путь движения фигуры от начальной до конечной клеток.
             Cell[] steps = this.figures[index].way(source, dest);
+//            проверить путь на наличие другой фигуры.
+            for (Cell step : steps) {
+                if (this.findBy(step) != -1) {
+                    throw new IllegalStateException("Wrong move!");
+                }
+            }
+//            если путь найден и конечная клетка хода равна концу найденного пути.
             if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                 rst = true;
                 this.figures[index] = this.figures[index].copy(dest);
             }
+        } catch (IllegalStateException e) {
+            System.out.println(e);
         }
         return rst;
     }
