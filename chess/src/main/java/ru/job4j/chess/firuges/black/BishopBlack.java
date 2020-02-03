@@ -51,7 +51,6 @@ public class BishopBlack implements Figure {
 //        слон ходит по четырём направлениям. Расчитываем направление.
         int deltaX = source.x < dest.x ? 1 : -1;
         int deltaY = source.y < dest.y ? 1 : -1;
-//        System.out.printf("deltaX " + deltaX + " deltaY " + deltaY + "\n");
 //        расчитываем путь.
         Cell step = source;
         for (int index = 0; index < size; index++) {
@@ -71,13 +70,7 @@ public class BishopBlack implements Figure {
      * @return true при диагональности хода.
      */
     public boolean isDiagonal(Cell source, Cell dest) {
-        boolean result = true;
-        if (source.x == dest.x) {
-            result = false;
-        } else if (source.y == dest.y) {
-            result = false;
-        }
-        return result;
+        return Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y);
     }
 
     /**

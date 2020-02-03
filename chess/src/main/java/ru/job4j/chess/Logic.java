@@ -22,29 +22,25 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        try {
-            int index = this.findBy(source); // поиск фигуры на исходной клетке.
-            int end = this.findBy(dest); // поиск фигуры на конечной клетке.
-//        если на исходной клетке есть фигура, а на конечной нет фигуры.
-            if (index != -1 && end == -1) {
-            } else {
-                throw new IllegalStateException(String.format("Wrong move from %s to %s", source, dest));
-            }
-//            находим путь движения фигуры от начальной до конечной клеток.
-            Cell[] steps = this.figures[index].way(source, dest);
-//            проверить путь на наличие другой фигуры.
-            for (Cell step : steps) {
-                if (this.findBy(step) != -1) {
-                    throw new IllegalStateException("Wrong move!");
+        int index = this.findBy(source);
+        if (index != -1) {
+            try {
+                Cell[] steps = this.figures[index].way(source, dest);
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                    rst = true;
+                    for (Cell step : steps) {
+                        if (this.findBy(step) != -1) {
+                            rst = false;
+                            break;
+                        }
+                    }
+                    if (rst) {
+                        this.figures[index] = this.figures[index].copy(dest);
+                    }
                 }
+            } catch (IllegalStateException e) {
+                System.out.println(e.getMessage());
             }
-//            если путь найден и конечная клетка хода равна концу найденного пути.
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
-            }
-        } catch (IllegalStateException e) {
-            System.out.println(e);
         }
         return rst;
     }
@@ -69,8 +65,6 @@ public class Logic {
 
     @Override
     public String toString() {
-        return "Logic{" +
-                "figures=" + Arrays.toString(this.figures) +
-                '}';
+        return "Logic{" + "figures=" + Arrays.toString(this.figures) + '}';
     }
 }

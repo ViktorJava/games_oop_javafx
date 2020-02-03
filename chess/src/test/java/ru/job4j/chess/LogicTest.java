@@ -27,6 +27,16 @@ public class LogicTest {
     }
 
     /**
+     * Нет фигуры, которой нужно ходить.
+     */
+    @Test
+    public void whenEmptyDest() {
+        Logic logic = new Logic();
+        logic.add(new BishopBlack(Cell.B8));
+        assertThat(logic.move(Cell.C8, Cell.A6), is(false));
+    }
+
+    /**
      * Тест случая наличия фигуры на пути.
      */
     @Test
@@ -34,18 +44,6 @@ public class LogicTest {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.C8));
         logic.add(new BishopBlack(Cell.B7));
-        assertThat(logic.move(Cell.C8, Cell.A6), is(false));
-    }
-
-    /**
-     * Тест случая наличия фигуры в конце пути.
-     */
-    @Test
-    public void whenWrongDestinationCell() {
-        Logic logic = new Logic();
-        logic.add(new BishopBlack(Cell.C8));
-        logic.add(new BishopBlack(Cell.B7));
-        logic.add(new BishopBlack(Cell.A6));
         assertThat(logic.move(Cell.C8, Cell.A6), is(false));
     }
 }
