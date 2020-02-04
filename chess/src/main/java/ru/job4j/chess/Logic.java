@@ -27,19 +27,24 @@ public class Logic {
             try {
                 Cell[] steps = this.figures[index].way(source, dest);
                 if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    rst = true;
-                    for (Cell step : steps) {
-                        if (this.findBy(step) != -1) {
-                            rst = false;
-                            break;
-                        }
-                    }
+                    rst = isWayFree(steps);
                     if (rst) {
                         this.figures[index] = this.figures[index].copy(dest);
                     }
                 }
             } catch (IllegalStateException e) {
                 System.out.println(e.getMessage());
+            }
+        }
+        return rst;
+    }
+
+    private boolean isWayFree(Cell[] steps) {
+        boolean rst = true;
+        for (Cell step : steps) {
+            if (this.findBy(step) != -1) {
+                rst = false;
+                break;
             }
         }
         return rst;
